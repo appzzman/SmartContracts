@@ -1,0 +1,25 @@
+{
+  "name": "smartcontracts",
+  "version": "1.0.0",
+  "description": "Smart Contracts Development",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/appzzman/SmartContracts.git"
+  },
+  "keywords": [
+    "ethereum"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/appzzman/SmartContracts/issues"
+  },
+  "homepage": "https://github.com/appzzman/SmartContracts#readme",
+  "dependencies": {
+    "web3": "github:ethereum/web3.js"
+  }
+}

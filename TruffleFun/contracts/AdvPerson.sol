@@ -15,14 +15,12 @@ struct PersonData{
 }
 
    address public owner;
-   uint256 highestBid;
+   uint256 private highestBid;
+
+   PersonData private lastPerson;
+   PersonData private highestBidder;
 
    event Log(string message,uint256 value);
-
-
-   PersonData public lastPerson;
-   PersonData public highestBidder;
-
 
    constructor() public{
        owner = msg.sender;

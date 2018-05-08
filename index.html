@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Decentralized Programmer</title>
+
+    <!-- <link rel="stylesheet" type="text/css" href="main.css"> -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+    <script>
+
+       if (typeof web3 !== 'undefined') {
+           web3 = new Web3(web3.currentProvider);
+       } else {
+           // set the provider you want from Web3.providers
+           web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+       }
+
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+        var Person = web3.eth.contract([
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "kill",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "message",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Log",
+		"type": "event"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_title",
+				"type": "string"
+			},
+			{
+				"name": "_fName",
+				"type": "string"
+			},
+			{
+				"name": "_lName",
+				"type": "string"
+			}
+		],
+		"name": "setPerson",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "fallback"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getHighestBidderPerson",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getLastBidderPerson",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]);
+
+   </script>
+
+
+</head>
+<body>
+
+
+  <ul class="nav">
+    <li class="nav-item"> <a class="nav-link" href="http://izotx.com">Decentralized Programmer</a> </li>
+    <li class="nav-item"><a class="nav-link" href="https://twitter.com/appzzman"><i class="fa fa-twitter"></i></a></li>
+    <li class="nav-item"><a class="nav-link" href="https://github.com/izotx/"><i class="fa fa-github"></i></a></li>
+    <li class="nav-item"><a class="nav-link" href="https://www.linkedin.com/in/chudzynski/"><i class="fa fa-linkedin"></i></a></li>
+  </ul>
+
+<div class="card">
+<div class="card-header">
+Featured
+</div>
+<div class="card-body">
+<h5 class="card-title">Special title treatment</h5>
+<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+<a href="#" class="btn btn-primary">Go somewhere</a>
+</div>
+</div>
+
+
+    <div class="container">
+
+      <p>Become forever a part of the decentralized world and save your name on the blockchain!</p>
+
+
+
+        <div class="card">
+        <div class="card-header">
+            Featured
+        </div>
+       <div class="card-body">
+
+        <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">Ethereum</th>
+        </tr>
+        </thead>
+      <tbody>
+      <tr>
+        <td id="hightitle"></td>
+        <td id="highname"> </td>
+        <td id="highlastname"></td>
+        <td id="high"></td>
+      </tr>
+    </table>
+    </div>
+    </div>
+
+
+        <label for="title" class="col-lg-2 control-label">Title</label>
+        <input id="title" type="text"/>
+
+        <label for="name" class="col-lg-2 control-label">Name</label>
+        <input id="name" type="text"/>
+
+        <label for="name" class="col-lg-2 control-label">Last Name</label>
+        <input id="lastname" type="text"/>
+
+        <button id="button">Update Instructor</button>
+
+
+    </div>
+    <footer class="container">
+      <ul class="nav navbar-nav">
+        <li><a href="https://twitter.com/appzzman"><i class="fa fa-twitter"></i></a></li>
+        <li><a href="https://github.com/izotx/"><i class="fa fa-github"></i></a></li>
+        <li><a href="https://www.linkedin.com/in/chudzynski/"><i class="fa fa-linkedin"></i></a></li>
+      </ul>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script>
+       // Our future code here..
+
+    </script>
+
+</body>
+</html>
