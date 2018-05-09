@@ -13,16 +13,52 @@
 
     <script src="./node_modules/web3/dist/web3.min.js"></script>
     <script>
+    var web3;
+    var Person;
+
+    function loadWeb3(){
 
        if (typeof web3 !== 'undefined') {
            web3 = new Web3(web3.currentProvider);
+           console.log("aaa");
        } else {
            // set the provider you want from Web3.providers
            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+           console.log("bb");
        }
 
+       web3.version.getNetwork((err, netId) => {
+  switch (netId) {
+    case "1":
+      console.log('This is mainnet')
+      break
+    case "2":
+      console.log('This is the deprecated Morden test network.')
+      break
+    case "3":
+      console.log('This is the ropsten test network.')
+      break
+    case "4":
+      console.log('This is the Rinkeby test network.')
+      break
+    case "42":
+      console.log('This is the Kovan test network.')
+      break
+    default:
+      console.log('This is an unknown network.')
+  }
+})
+
+
         web3.eth.defaultAccount = web3.eth.accounts[0];
-        var Person = web3.eth.contract([
+        console.log(web3.eth.defaultAccount);
+        // web3.eth.getBalance(web3.eth.defaultAccount).then(function(res,err){
+        //   console.log(res,err);
+        // })
+
+
+
+        var PersonContract = web3.eth.contract([
 	{
 		"constant": false,
 		"inputs": [],
@@ -150,7 +186,11 @@
 	}
 ]);
 
-   </script>
+  Person = PersonContract.at('0x295699b636c6ef85f2c71d78ca086aa15bc628ea');
+  console.log(Person);
+  }
+
+ </script>
 
 
 </head>
@@ -166,15 +206,16 @@
 </nav>
     <div class="container">
     <div class="row">
-      <div class="col-12">
       <p class="small text-muted">Become a part of the decentralized world! Save your name on the blockchain to make sure it will be never forgotten! </p>
+      <!-- <div class="col-2"> </div> -->
 
+      <div class="col-8">
 
 
 
     <div class="card text-white bg-success" >
     <div class="card-header">
-        Featured
+        Featured Highest Bidder
     </div>
    <div class="card-body">
 
@@ -184,7 +225,7 @@
       <th scope="col">Title</th>
       <th scope="col">First Name</th>
       <th scope="col">Last Name</th>
-      <th scope="col">Ethereum</th>
+      <th scope="col">Bid</th>
     </tr>
     </thead>
   <tbody>
@@ -192,13 +233,36 @@
     <td id="hightitle"></td>
     <td id="highname"> </td>
     <td id="highlastname"></td>
-    <td id="higheth"></td>
+    <td id="highbid"></td>
   </tr>
 </table>
 </div>
 </div>
 </div>
+      <!-- <div class="col-2"> </div> -->
+
+      <div class="col-4">
+      <div class="card text-gray">
+      <div class="card-header small">
+          Last Person
+      </div>
+     <div class="card-body">
+
+       <ul class="list-group list-group-flush">
+       <li class="list-group-item small text-muted" id="last_title">Title</li>
+       <li class="list-group-item small text-muted" id="last_firstname">First Name</li>
+       <li class="list-group-item small text-muted" id="last_lastname">Last Name</li>
+       <li class="list-group-item small text-muted" id="last_bid">Bid</li>
+      </ul>
+
+
+    </div>
+    </div>
+    </div>
+
+
 </div>
+<br>
 
     <div class="row">
 
@@ -220,29 +284,12 @@
       <div class="input-group mb-3">
         <input id="lastname" type="text"  class="form-control" placeholder="Last Name"/>
       </div>
-        <button  class="btn btn-primary" id="button">Save your name!</button>
+        <button  class="btn btn-primary" id="savebutton">Save your name!</button>
     </div>
   </div>
   </div>
 
-  <div class="col-4">
-  <div class="card text-gray">
-  <div class="card-header">
-      Last Person
-  </div>
- <div class="card-body">
 
-   <ul class="list-group list-group-flush">
-   <li class="list-group-item text-muted" id="last_title">Title</li>
-   <li class="list-group-item  text-muted" id="last_firstname">First Name</li>
-   <li class="list-group-item text-muted" id="last_lastname">Last Name</li>
-   <li class="list-group-item text-muted" id="last_eth">Ethereum</li>
-  </ul>
-
-
-</div>
-</div>
-</div>
 
 
   </div>
@@ -259,6 +306,21 @@
 
     <script>
        // Our future code here..
+       $(function() {
+          loadWeb3();
+           // Code here
+           $("#savebutton").click(function(){
+                var title = $("#title").val();
+                var firstname = $("#firstname").val();
+                var lastname = $("#lastname").val();
+
+                Person.setPerson(title,firstname,lastname,function(error,result){
+                    console.log(error);
+                    console.log(result);
+                  })
+           });
+       });
+
 
     </script>
 
