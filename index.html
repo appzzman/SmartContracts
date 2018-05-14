@@ -12,185 +12,7 @@
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
     <script src="./node_modules/web3/dist/web3.min.js"></script>
-    <script>
-    var web3;
-    var Person;
-
-    function loadWeb3(){
-
-       if (typeof web3 !== 'undefined') {
-           web3 = new Web3(web3.currentProvider);
-           console.log("aaa");
-       } else {
-           // set the provider you want from Web3.providers
-           web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-           console.log("bb");
-       }
-
-       web3.version.getNetwork((err, netId) => {
-  switch (netId) {
-    case "1":
-      console.log('This is mainnet')
-      break
-    case "2":
-      console.log('This is the deprecated Morden test network.')
-      break
-    case "3":
-      console.log('This is the ropsten test network.')
-      break
-    case "4":
-      console.log('This is the Rinkeby test network.')
-      break
-    case "42":
-      console.log('This is the Kovan test network.')
-      break
-    default:
-      console.log('This is an unknown network.')
-  }
-})
-
-
-        web3.eth.defaultAccount = web3.eth.accounts[0];
-        console.log(web3.eth.defaultAccount);
-        // web3.eth.getBalance(web3.eth.defaultAccount).then(function(res,err){
-        //   console.log(res,err);
-        // })
-
-
-
-        var PersonContract = web3.eth.contract([
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "kill",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"name": "message",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "Log",
-		"type": "event"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_title",
-				"type": "string"
-			},
-			{
-				"name": "_fName",
-				"type": "string"
-			},
-			{
-				"name": "_lName",
-				"type": "string"
-			}
-		],
-		"name": "setPerson",
-		"outputs": [],
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "fallback"
-	},
-	{
-		"inputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getHighestBidderPerson",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
-			},
-			{
-				"name": "",
-				"type": "string"
-			},
-			{
-				"name": "",
-				"type": "string"
-			},
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getLastBidderPerson",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
-			},
-			{
-				"name": "",
-				"type": "string"
-			},
-			{
-				"name": "",
-				"type": "string"
-			},
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "owner",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	}
-]);
-
-  Person = PersonContract.at('0x295699b636c6ef85f2c71d78ca086aa15bc628ea');
-  console.log(Person);
-  }
-
- </script>
+    <script src="contract.js"></script>
 
 
 </head>
@@ -204,7 +26,26 @@
     <li class="nav-item"><a class="nav-link" href="https://www.linkedin.com/in/chudzynski/"><i class="fa fa-linkedin"></i></a></li>
   </ul>
 </nav>
+
     <div class="container">
+    <div class="row">
+      <div class="col-12">
+      <div id ="success_message" class="alert alert-success" role="alert">
+        <button type="button" class="close"  aria-label="Close" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <p id="message_text"> </p>
+
+      </div>
+      <div id ="error_message" class="alert alert-error" role="alert">
+        <button type="button" class="close" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <p id="error_text"> </p>
+      </div>
+      </div>
+    </div>
+
     <div class="row">
       <p class="small text-muted">Become a part of the decentralized world! Save your name on the blockchain to make sure it will be never forgotten! </p>
       <!-- <div class="col-2"> </div> -->
@@ -284,9 +125,17 @@
       <div class="input-group mb-3">
         <input id="lastname" type="text"  class="form-control" placeholder="Last Name"/>
       </div>
-        <button  class="btn btn-primary" id="savebutton">Save your name!</button>
+
+      <div class="input-group mb-3">
+        <input id="bid" type="text"  class="form-control" placeholder="Bid (In Ether) for example: 0.01"/>
+      </div>
+
+        <button  class="btn btn-primary" id="savebutton">Save your name! *</button>
+<p class="small text-gray">* Make sure you know what you are doing. I am not responsible for any losses or your mistakes.</p>
     </div>
+
   </div>
+
   </div>
 
 
@@ -304,25 +153,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <script>
-       // Our future code here..
-       $(function() {
-          loadWeb3();
-           // Code here
-           $("#savebutton").click(function(){
-                var title = $("#title").val();
-                var firstname = $("#firstname").val();
-                var lastname = $("#lastname").val();
-
-                Person.setPerson(title,firstname,lastname,function(error,result){
-                    console.log(error);
-                    console.log(result);
-                  })
-           });
-       });
-
-
-    </script>
+    <script src="main.js"></script>
 
 </body>
 </html>
