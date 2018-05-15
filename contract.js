@@ -1,7 +1,7 @@
 
 var web3;
 var Person;
-var contractAddress = "0x7e1e450346a2a17329e20d835005c803bd470eb4";
+var contractAddress = "0x0a2b0224e39c99cb0c8f4b3122142d90dfa26118";
 
 function loadWeb3(){
 
