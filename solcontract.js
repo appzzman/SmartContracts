@@ -1,5 +1,7 @@
 module.exports = {
-bigcontract: `pragma solidity ^0.4.18;
+bigcontract: function(symbol,tname, supply,decimals){
+
+return `pragma solidity ^0.4.18;
 
 // ----------------------------------------------------------------------------
 // 'FIXED' 'Example Fixed Supply Token' token contract
@@ -221,6 +223,6 @@ contract FixedSupplyToken is ERC20Interface, Owned {
     function transferAnyERC20Token(address tokenAddress, uint tokens) public onlyOwner returns (bool success) {
         return ERC20Interface(tokenAddress).transfer(owner, tokens);
     }
-}`
-
+  }`;
+  }
 }

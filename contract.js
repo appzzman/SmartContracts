@@ -1,4 +1,3 @@
-
 var web3;
 var Person;
 var contractAddress = "0x0a2b0224e39c99cb0c8f4b3122142d90dfa26118";
