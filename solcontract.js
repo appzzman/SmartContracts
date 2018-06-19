@@ -116,10 +116,14 @@ contract FixedSupplyToken is ERC20Interface, Owned {
     // Constructor
     // ------------------------------------------------------------------------
     function FixedSupplyToken() public {
-        symbol ="${symbol}";
-        name = "${tname}";
-        decimals = ${decimals};
-        _totalSupply = ${supply} * 10**uint(decimals);
+        // symbol ="${symbol}";
+        // name = "${tname}";
+        // decimals = ${decimals};
+        // _totalSupply = ${supply} * 10**uint(decimals);
+        symbol ="ABC";
+       name = "tname";
+       decimals = 18;
+       _totalSupply = 10 * 10**uint(decimals);
         balances[owner] = _totalSupply;
         Transfer(address(0), owner, _totalSupply);
     }

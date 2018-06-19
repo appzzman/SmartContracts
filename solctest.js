@@ -1,6 +1,6 @@
 var solc = require('solc');
-// var contracts = require('./solcontract');
-var contracts = require('./simple');
+var contracts = require('./solcontract');
+// var contracts = require('./simple');
 var Web3 = require('web3');
 var web3;
 
@@ -18,16 +18,16 @@ function loadWeb3(){
        console.log("bb");
    }
    var version = web3.version.api;
-   console.log(version);
+   console.log("API VErsion", version);
 }
 
 loadWeb3();
 
 function compileContract(_symbol,_tname,_decimals,_supply){
- // console.log(_symbol);
- // console.log(_tname);
- // console.log(_supply);
- // console.log(_decimals);
+ console.log(_symbol);
+ console.log(_tname);
+ console.log(_decimals);
+ console.log(_supply);
 
 
 var symbol = _symbol;
@@ -40,17 +40,29 @@ var input = contracts.bigcontract(symbol,tname,supply,decimals);
 // console.log("Contract",input);
 
 var output = solc.compile(input, 1)
+// console.log(output);
 // console.log("Smart Contracts",output.contracts);
 // console.log("DONE");
 for (var contractName in output.contracts) {
-  var bytecode  = output.contracts[contractName].bytecode;
-  var _inteface  = output.contracts[contractName].inteface;
-  var myContract = new web3.eth.contract(bytecode);
+  console.log(contractName); //.inteface
+  console.log(output.contracts[contractName]["interface"]);
+  var bytecode  = output.contracts[contractName]["bytecode"];
+  var _interface  = JSON.parse(output.contracts[contractName]["interface"]);
+  var myContract = new web3.eth.contract(_interface);
+
+
 
     // code and ABI that are needed by web3
     // console.log(contractName + ': ' + output.contracts[contractName].bytecode)
     // console.log(contractName + '; ' + JSON.parse(output.contracts[contractName].interface))
-  console.log("Contract",myContract);
+  // console.log("Contract",contractName);
+  myContract.deploy({data:"0x"+bytecode}).send({from: accounts[0], gas: 4700000})
+  .then((instance) => {
+    console.log(`Address: ${instance.options.address}`);
+  })
+  .catch(console.log);
+
+
 }
 
 
