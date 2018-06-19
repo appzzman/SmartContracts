@@ -44,8 +44,8 @@ var output = solc.compile(input, 1)
 // console.log("Smart Contracts",output.contracts);
 // console.log("DONE");
 for (var contractName in output.contracts) {
-  console.log(contractName); //.inteface
-  console.log(output.contracts[contractName]["interface"]);
+  // console.log(contractName); //.inteface
+  // console.log(output.contracts[contractName]["interface"]);
   var bytecode  = output.contracts[contractName]["bytecode"];
   var _interface  = JSON.parse(output.contracts[contractName]["interface"]);
   var myContract = new web3.eth.contract(_interface);
@@ -56,11 +56,29 @@ for (var contractName in output.contracts) {
     // console.log(contractName + ': ' + output.contracts[contractName].bytecode)
     // console.log(contractName + '; ' + JSON.parse(output.contracts[contractName].interface))
   // console.log("Contract",contractName);
-  myContract.deploy({data:"0x"+bytecode}).send({from: accounts[0], gas: 4700000})
-  .then((instance) => {
-    console.log(`Address: ${instance.options.address}`);
+   const c = myContract.new({data:"0x"+bytecode, from:web3.eth.coinbase, gas: 4700000}, (err,res)=>{
+    if (err) {
+      console.log("ERROR ", err);
+      return;
+    }
+
+  // Log the tx, you can explore status with eth.getTransaction()
+  console.log(res.transactionHash);
+
+  // If we have an address property, the contract was deployed
+  if (res.address) {
+      console.log('Contract address: ' + res.address);
+      // Let's test the deployed contract
+      testContract(res.address);
+    }
   })
-  .catch(console.log);
+
+
+  // myContract.deploy({data:"0x"+bytecode}).send({from: accounts[0], gas: 4700000})
+  // .then((instance) => {
+  //   console.log(`Address: ${instance.options.address}`);
+  // })
+  // .catch(console.log);
 
 
 }
